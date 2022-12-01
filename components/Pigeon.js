@@ -6,6 +6,7 @@ import { locationState } from "../atoms/modalAtom";
 import Marker2 from "./Marker2";
 import { useRouter } from "next/router";
 export default function Pigeon({ notes, posts, id, key }) {
+  let mapId = "4fb841be-1983-4093-b576-32caf8d3b89e";
   const router = useRouter();
 
   const [location, setLocation] = useRecoilState(locationState);
@@ -48,6 +49,7 @@ export default function Pigeon({ notes, posts, id, key }) {
   useEffect(() => {
     allMarkers = displayMarkers(notes);
   }, [notes]);
+  console.log(allMarkers);
   let currentLatLng = [Number(location[0]), Number(location[1])];
   const mapTilerProvider = (x, y, z, dpr) => {
     return `https://api.maptiler.com/maps/streets-v2-dark/${z}/${x}/${y}.png?key=AodQuZmi32MyjzguIUO1`;
@@ -74,9 +76,27 @@ export default function Pigeon({ notes, posts, id, key }) {
                   Number(marker.props.post.lat),
                   Number(marker.props.post.long),
                 ]}
-                offset={[24, 15]}
+                className='group relative'
               >
-                <span onClick={() => router.push(`${marker.key}`)}>❌</span>
+                <span
+                  className='cursor-pointer xmarker'
+                  onClick={() => router.push(`${marker.key}`)}
+                >
+                  ❌
+                </span>
+                <div className='p-8 w-[200px] rounded-2xl hidden group-hover:inline bg-violet-800/20 absolute t-24 z-100 ml-4 mb-4'>
+                  <span className='z-100'>{marker.props.post.text}</span>
+                  <div className='flex justify-between items-center w-full pt-8'>
+                    <img
+                      src={marker.props.post.userImg}
+                      className='h-8 w-8 rounded-full'
+                      alt=''
+                    />
+                    <span className='z-100 text-[8px]'>
+                      {marker.props.post.username}
+                    </span>
+                  </div>
+                </div>
               </Overlay>
             ))}
           </Map>

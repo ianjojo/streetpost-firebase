@@ -82,7 +82,7 @@ export default function Input({ getUserLocation }) {
   };
   return (
     <div
-      className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll ${
+      className={` p-3 flex space-x-3 overflow-y-scroll ${
         loading && "opacity-60"
       }`}
     >
@@ -124,7 +124,8 @@ export default function Input({ getUserLocation }) {
                 className='icon'
                 onClick={() => filePickerRef.current.click()}
               >
-                <PhotoIcon className='h-[22px]  text-[#1d9bf0]' />
+                <PhotoIcon className='h-[22px]  text-[#a92070]' />
+
                 <input
                   type='file'
                   onChange={addImageToPost}
