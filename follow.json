@@ -1,0 +1,17 @@
+[
+  {
+    "userImg": "/cats.jpeg",
+    "username": "Cats being weird lil guys",
+    "tag": "@weirdlilguys"
+  },
+  {
+    "userImg": "/ian.jpeg",
+    "username": "Ian Jojo",
+    "tag": "@ianjojo"
+  },
+  {
+    "userImg": "/adamc.jpeg",
+    "username": "Adam Curry",
+    "tag": "@adamcurry"
+  }
+]

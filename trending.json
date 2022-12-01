@@ -1,0 +1,20 @@
+[
+  {
+    "heading": "Grape juice popularity surging",
+    "description": "People are waking up to the delicious taste of grape juice all over the globe.",
+    "img": "/grapes.jpeg",
+    "tags": ["#grapes, ", "Juice underworld"]
+  },
+  {
+    "heading": "Ian Jojo seeking a web dev job",
+    "description": "A BrainStation grad, hungry to learn and build things, has built a Twitter clone to deepen his understanding of React and Next.js",
+    "img": "https://rb.gy/jvuy4v",
+    "tags": ["#DubaiAirshow, ", "#gessdubai"]
+  },
+  {
+    "heading": "Trending in goose news",
+    "description": "Geese are becoming more intelligent and one scientist says they present a realistic threat to humanity.",
+    "img": "/geese.jpeg",
+    "tags": ["#GooseWarfare ", "#GeeseArmageddon2022"]
+  }
+]
