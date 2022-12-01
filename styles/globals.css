@@ -29,9 +29,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.root,
-#root,
-#docs-root {
+:root {
   --background: #020213;
   --lesserbackground: #2f2f2f;
   --text-primary: #f9f9f9;
