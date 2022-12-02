@@ -17,14 +17,14 @@ import Link from "next/link";
 export default function Sidebar() {
   const { data: session } = useSession();
   return (
-    <div className='hidden sm:flex flex-col items-center xl:items-start xl:w-[340px] p-2 fixed h-full'>
-      <div className='flex items-center justify-center w-34 h-24 hoverAnimation p-0  xl:ml-24'>
+    <div className='hidden sm:flex flex-col items-center xl:items-start xl:w-[280px] p-2 fixed h-full'>
+      <div className='flex items-center justify-center w-34 h-24 hoverAnimation p-0  xl:ml-20'>
         <Image className='mr-4 ' src='/glyph.png' width={50} height={50} />
         <h1 className='hidden xl:inline text-white text-[30px] font-clashgrotesk'>
           Streetpost
         </h1>
       </div>
-      <div className='space-y-2.5 mt-4 mb-2.5 xl:ml-24  '>
+      <div className='space-y-2.5 mt-4 mb-2.5 xl:ml-20  '>
         <Link href='/'>
           <SidebarLink text='Home' Icon={HomeIcon} active />
         </Link>
@@ -36,7 +36,7 @@ export default function Sidebar() {
         Tweet
       </button> */}
       <div
-        className='text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-auto xl:-mr-5'
+        className='text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-auto '
         onClick={signOut}
       >
         <img

@@ -13,6 +13,7 @@ import { modalState } from "../atoms/modalAtom";
 import Modal from "../components/Modal";
 import Sidebar from "../components/Sidebar";
 /* import Widgets from "../components/Widgets"; */
+import MiniPigeon from "../components/MiniPigeon";
 import Post from "../components/Post";
 import { db } from "../firebase";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
@@ -53,7 +54,7 @@ function PostPage({ trendingResults, followResults, providers }) {
     <div>
       <Head>
         <title>
-          {post?.username} on Twitter: "{post?.text}"
+          {post?.username} posted: "{post?.text}"
         </title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
@@ -67,12 +68,12 @@ function PostPage({ trendingResults, followResults, providers }) {
             >
               <ArrowLeftIcon className='h-5 text-white' />
             </div>
-            Tweet
+            Nearby Post
           </div>
 
           <Post id={id} post={post} postPage />
           {comments.length > 0 && (
-            <div className='pb-72'>
+            <div className=''>
               {comments.map((comment) => (
                 <Comment
                   key={comment.id}
@@ -82,12 +83,12 @@ function PostPage({ trendingResults, followResults, providers }) {
               ))}
             </div>
           )}
+          {post && <MiniPigeon post={post} />}
         </div>
         {/*   <Widgets
           trendingResults={trendingResults}
           followResults={followResults}
         /> */}
-
         {isOpen && <Modal />}
       </main>
     </div>

@@ -189,6 +189,23 @@ function Post({ id, post, postPage, getUserLocation }) {
           <div className='icon group'>
             <ShareIcon className='h-5 group-hover:text-[#1d9bf0]' />
           </div>
+          <div
+            className='flex items-center space-x-1 group'
+            onClick={(e) => {
+              e.stopPropagation();
+              setPostId(id);
+              setIsOpen(true);
+            }}
+          >
+            <div className='icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10'>
+              <ChatBubbleOvalLeftEllipsisIcon className='h-5 group-hover:text-[#1d9bf0]' />
+            </div>
+            {comments.length > 0 && (
+              <span className='group-hover:text-[#1d9bf0] text-sm'>
+                {comments.length}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>

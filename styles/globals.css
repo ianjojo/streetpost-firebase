@@ -360,6 +360,30 @@
   font-style: italic;
 } /*# sourceMappingURL=Header.css.map */
 .mycontainer {
+  height: 50vh;
+  display: flex;
+  margin-top: 24px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0 auto;
+  /*   border-radius: 25px; */
+  background: black;
+  position: relative;
+}
+.mycontainermini {
+  height: 300px;
+  width: 100%;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0 auto;
+  /*   border-radius: 25px; */
+  background: black;
+  position: relative;
+}
+
+.mobilemycontainer {
   height: 95vh;
   display: flex;
   margin-top: 24px;

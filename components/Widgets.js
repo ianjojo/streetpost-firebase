@@ -10,6 +10,13 @@ function Widgets({ notes, posts, id, key }) {
         <h2 className='text-lg sm:text-xl font-bold'></h2>
         <Pigeon notes={notes} />
       </div>
+      {/* <div>
+        <span className='text-white '>
+          Streetpost requires your location to be of use. If you have location
+          services turned off in your browser or phone, the whole thing becomes
+          rather useless, as we're intentionally trying to show posts near you.
+        </span>
+      </div> */}
     </div>
   );
 }
