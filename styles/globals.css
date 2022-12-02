@@ -384,15 +384,13 @@
 }
 
 .mobilemycontainer {
-  height: 95vh;
+  height: 100vh;
   display: flex;
   margin-top: 24px;
   justify-content: center;
   align-items: center;
   margin-bottom: 0 auto;
   /*   border-radius: 25px; */
-  background: black;
-  position: relative;
 }
 .mycontainer div {
   /*   border-radius: 25px; */
