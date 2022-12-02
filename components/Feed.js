@@ -8,11 +8,19 @@ import { useRecoilState } from "recoil";
 import { locationState } from "../atoms/modalAtom";
 import { useSession } from "next-auth/react";
 import GetUserLocation from "./GetUserLocation";
+import { useRouter } from "next/router";
 import Loading from "./Loading";
-function Feed({ getUserLocation, storeNotes, location }) {
+function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
+  const router = useRouter();
+  const { data: session } = useSession();
   const [gotLocation, setGotLocation] = useState(false);
   const [posts, setPosts] = useState([]);
   console.log(location);
+
+  const goHome = () => {
+    hideMap();
+    router.push("/");
+  };
   let distance = function (lat1, lon1, lat2, lon2) {
     var radlat1 = (Math.PI * lat1) / 180;
     var radlat2 = (Math.PI * lat2) / 180;
@@ -73,7 +81,22 @@ function Feed({ getUserLocation, storeNotes, location }) {
   return (
     <div className='text-white flex-grow  max-w-2xl sm:ml-[73px] xl:ml-[370px]      '>
       <div className='text-[#d9d9d9] flex items-center sm:justify-between py-2 px-3 sticky top-0 z-50 bg-black border-b border-accent-color'>
-        <h2 className='text-lg sm:text-xl font-bold'>Posts</h2>
+        <h2 className='hidden text-lg sm:text-xl sm:inline font-bold'>Posts</h2>
+        <div className='mobile-nav flex justify-between sm:hidden w-full space-x-2 bg-black z-[1000]'>
+          <h2 className='text-lg sm:text-xl font-bold'>Streetpost</h2>
+          <div className='flex justify-end space-x-3 items-center'>
+            <h2 className='text-md sm:text-xl font-bold' onClick={hideMap}>
+              Posts
+            </h2>
+            <h2 className='text-md sm:text-xl   font-bold' onClick={toggleMap}>
+              Map
+            </h2>
+            <h2 className='text-md sm:text-xl   font-bold'>
+              {!session ? "Login" : "Logout"}
+            </h2>
+          </div>
+        </div>
+
         <div className='  flex items-center  xl:px-0 ml-auto'>
           <GetUserLocation getUserLocation={getUserLocation} />
 

@@ -3,7 +3,7 @@ import { Map, Overlay, Marker } from "pigeon-maps";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { locationState } from "../atoms/modalAtom";
-import Marker2 from "./Marker2";
+
 import { useRouter } from "next/router";
 export default function Pigeon({ notes, posts, id, key }) {
   let mapId = "4fb841be-1983-4093-b576-32caf8d3b89e";
@@ -52,11 +52,11 @@ export default function Pigeon({ notes, posts, id, key }) {
   console.log(allMarkers);
   let currentLatLng = [Number(location[0]), Number(location[1])];
   const mapTilerProvider = (x, y, z, dpr) => {
-    return `https://api.maptiler.com/maps/jp-mierune-dark/${z}/${x}/${y}.png?key=AodQuZmi32MyjzguIUO1`;
+    return `https://api.maptiler.com/maps/streets-v2-dark/${z}/${x}/${y}.png?key=AodQuZmi32MyjzguIUO1`;
   };
   return (
     <div className=' '>
-      <div className='mycontainer bg-black relative shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
+      <div className='h-full w-full bg-black relative shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
         {/*   <div className='overlay'>
           <img src='/vintage-paper-texture-3.jpeg' alt='' />
         </div> */}

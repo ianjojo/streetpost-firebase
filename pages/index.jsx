@@ -15,6 +15,7 @@ import followResults from "../follow.json";
 import GetUserLocation from "../components/GetUserLocation";
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
+import MobilePigeon from "../components/MobilePigeon";
 
 const Home = ({ providers }) => {
   const getUserLocation = () => {
@@ -41,7 +42,7 @@ const Home = ({ providers }) => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modalState);
   const [location, setLocation] = useRecoilState(locationState);
-
+  const [mapIsOpen, setMapIsOpen] = useState(false);
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
   const [notes, setNotes] = useState([]);
@@ -50,6 +51,14 @@ const Home = ({ providers }) => {
   }, []);
   const storeNotes = (notes) => {
     setNotes(notes);
+  };
+
+  const toggleMap = () => {
+    setMapIsOpen(!mapIsOpen);
+  };
+
+  const hideMap = () => {
+    setMapIsOpen(false);
   };
 
   if (!session) return <Login providers={providers} />;
@@ -61,6 +70,7 @@ const Home = ({ providers }) => {
       </Head>
 
       <main className='bg-black min-h-screen flex max-w-[1500px] mx-auto'>
+        {mapIsOpen && <MobilePigeon notes={notes} />}
         <Sidebar />
         <span className='text-white text-lg'></span>
 
@@ -68,6 +78,8 @@ const Home = ({ providers }) => {
           getUserLocation={getUserLocation}
           location={location}
           storeNotes={storeNotes}
+          toggleMap={toggleMap}
+          hideMap={hideMap}
         />
         <Widgets notes={notes} />
         {/* Feed */}

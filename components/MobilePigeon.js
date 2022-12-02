@@ -55,8 +55,8 @@ export default function Pigeon({ notes, posts, id, key }) {
     return `https://api.maptiler.com/maps/jp-mierune-dark/${z}/${x}/${y}.png?key=AodQuZmi32MyjzguIUO1`;
   };
   return (
-    <div className=' '>
-      <div className='mycontainer bg-black relative shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
+    <div className='relative'>
+      <div className='mobilemycontainer z-50 bg-black absolute t-0 l-0 h-full w-screen shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
         {/*   <div className='overlay'>
           <img src='/vintage-paper-texture-3.jpeg' alt='' />
         </div> */}
