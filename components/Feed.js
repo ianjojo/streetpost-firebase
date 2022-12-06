@@ -10,12 +10,15 @@ import { useSession } from "next-auth/react";
 import GetUserLocation from "./GetUserLocation";
 import { useRouter } from "next/router";
 import Loading from "./Loading";
+import Link from "next/link";
 function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
   const router = useRouter();
   const { data: session } = useSession();
   const [gotLocation, setGotLocation] = useState(false);
   const [posts, setPosts] = useState([]);
-  console.log(location);
+  const [sortedNotes, setSortedNotes] = useState([]);
+  const [queryDistance, setQueryDistance] = useState(5);
+  const [sortBy, setSortBy] = useState("");
 
   const goHome = () => {
     hideMap();
@@ -44,13 +47,14 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
           setPosts(snapshot.docs);
 
           storeNotes(snapshot.docs);
+          setSortBy("distance");
         }
       ),
     [db]
   );
   let nearNotes = [];
+
   let matching = posts.filter((note) => {
-    console.log(note._document.data.value.mapValue.fields.lat.stringValue);
     // return distance(coord.lat, coord.long, origin.lat, origin.long);
     return (
       distance(
@@ -58,10 +62,37 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
         Number(location[1]),
         Number(note._document.data.value.mapValue.fields.lat.stringValue),
         Number(note._document.data.value.mapValue.fields.lng.stringValue)
-      ) < 0.5
+      ) < 100
     );
   });
-  console.log(matching);
+
+  // sort array by distance
+
+  useEffect(() => {
+    if (sortBy === "distance") {
+      let sortedByDistance = matching;
+      sortedByDistance.sort((a, b) => {
+        return (
+          distance(
+            Number(location[0]),
+            Number(location[1]),
+            Number(a._document.data.value.mapValue.fields.lat.stringValue),
+            Number(a._document.data.value.mapValue.fields.lng.stringValue)
+          ) -
+          distance(
+            Number(location[0]),
+            Number(location[1]),
+            Number(b._document.data.value.mapValue.fields.lat.stringValue),
+            Number(b._document.data.value.mapValue.fields.lng.stringValue)
+          )
+        );
+      });
+      setSortedNotes(sortedByDistance);
+    } else {
+      setSortedNotes(matching);
+      return;
+    }
+  }, [sortBy]);
   /* useEffect(() => {
     posts?.map((post) => {
       let distanceBetween = distance(
@@ -78,16 +109,36 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
     });
   }, [location, posts]); */
 
+  const toggleSort = () => {
+    if (sortBy === "date") {
+      setSortBy("distance");
+      console.log(sortBy);
+    } else {
+      setSortBy("date");
+      console.log(sortBy);
+    }
+  };
   return (
     <div className='text-white flex-grow  max-w-2xl sm:ml-[73px] xl:ml-[370px]      '>
       <div className='text-[#d9d9d9] flex items-center sm:justify-between py-2 px-3 sticky top-0 z-50 bg-black border-b border-accent-color'>
         <h2 className='hidden text-lg sm:text-xl sm:inline font-bold'>Posts</h2>
+        <span onClick={toggleSort}>
+          Sort by {sortBy === "date" ? "distance" : "date"}
+        </span>
         <div className='mobile-nav flex justify-between sm:hidden w-full space-x-2 bg-black z-50'>
           <h2 className='text-lg sm:text-xl font-bold z-50'>Streetpost</h2>
           <div className='flex justify-end space-x-3 items-center'>
             <h2 className='text-md sm:text-xl font-bold' onClick={hideMap}>
               Posts
             </h2>
+            {/*    <Link
+              href={{
+                pathname: "/map",
+                query: { location: location, posts: posts },
+              }}
+            >
+              <h2 className='text-md sm:text-xl   font-bold'>Map</h2>
+            </Link> */}
             <h2 className='text-md sm:text-xl   font-bold' onClick={toggleMap}>
               Map
             </h2>
@@ -112,8 +163,8 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
       </div>
       <Input getUserLocation={getUserLocation} location={location} />
       <div className='pb-72'>
-        {matching.length < 1 && <Loading />}
-        {matching.map((post) => (
+        {sortedNotes.length < 1 && <Loading />}
+        {sortedNotes.map((post) => (
           <Post key={post.id} id={post.id} post={post.data()} />
         ))}
       </div>

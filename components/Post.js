@@ -39,6 +39,7 @@ function Post({ id, post, postPage, getUserLocation }) {
   const [likes, setLikes] = useState([]);
   const [location, setLocation] = useRecoilState(locationState);
   const router = useRouter();
+  const [distance, setDistance] = useState(0);
 
   useEffect(
     () =>
@@ -66,6 +67,10 @@ function Post({ id, post, postPage, getUserLocation }) {
     [likes]
   );
 
+  useEffect(() => {
+    setDistance(getDistance(location[0], location[1], post?.lat, post?.long));
+  }, [location]);
+
   const likePost = async () => {
     if (liked) {
       await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
@@ -74,6 +79,25 @@ function Post({ id, post, postPage, getUserLocation }) {
         username: session.user.name,
       });
     }
+  };
+  // get the distance in kilometers between two points
+  const getDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(lat2 - lat1); // deg2rad below
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // Distance in km
+    return d;
+  };
+
+  const deg2rad = (deg) => {
+    return deg * (Math.PI / 180);
   };
 
   return (
@@ -113,7 +137,7 @@ function Post({ id, post, postPage, getUserLocation }) {
                   !postPage && "ml-1.5"
                 }`}
               >
-                @{post?.tag}
+                {`· ${distance.toFixed(2)} km away`}
               </span>
             </div>{" "}
             ·{" "}

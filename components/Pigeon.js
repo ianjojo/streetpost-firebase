@@ -49,7 +49,7 @@ export default function Pigeon({ notes, posts, id, key }) {
   useEffect(() => {
     allMarkers = displayMarkers(notes);
   }, [notes]);
-  console.log(allMarkers);
+
   let currentLatLng = [Number(location[0]), Number(location[1])];
   const mapTilerProvider = (x, y, z, dpr) => {
     return `https://api.maptiler.com/maps/jp-mierune-dark/${z}/${x}/${y}.png?key=AodQuZmi32MyjzguIUO1`;
@@ -65,10 +65,17 @@ export default function Pigeon({ notes, posts, id, key }) {
             provider={mapTilerProvider}
             center={currentLatLng}
             defaultZoom={18}
-            minZoom={18}
+            minZoom={12}
             maxZoom={18}
             mouseEvents={true}
           >
+            <Overlay anchor={currentLatLng} offset={[15, 15]}>
+              <img
+                style={{ height: "30px", width: "30px" }}
+                src='/location.png'
+                alt=''
+              />
+            </Overlay>
             {allMarkers.map((marker) => (
               <Overlay
                 key={marker.key}
@@ -82,7 +89,11 @@ export default function Pigeon({ notes, posts, id, key }) {
                   className='cursor-pointer xmarker'
                   onClick={() => router.push(`${marker.key}`)}
                 >
-                  ❌
+                  <img
+                    style={{ height: "25px", width: "25px" }}
+                    src='./marker.png'
+                    alt=''
+                  />
                 </span>
                 <div className='p-8 w-[200px] rounded-2xl hidden group-hover:inline bg-violet-800/20 absolute t-24 z-100 ml-4 mb-4'>
                   <span className='z-100'>{marker.props.post.text}</span>

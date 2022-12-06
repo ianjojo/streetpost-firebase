@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { locationState } from "../atoms/modalAtom";
 import Marker2 from "./Marker2";
 import { useRouter } from "next/router";
+import PostPreview from "./PostPreview";
 export default function Pigeon({ notes, posts, id, key }) {
   let mapId = "4fb841be-1983-4093-b576-32caf8d3b89e";
   const router = useRouter();
@@ -84,6 +85,7 @@ export default function Pigeon({ notes, posts, id, key }) {
                 >
                   ❌
                 </span>
+                {/* <PostPreview post={marker.props.post} /> */}
                 <div className='p-8 w-[200px] rounded-2xl hidden group-hover:inline bg-violet-800/20 absolute t-24 z-100 ml-4 mb-4'>
                   <span className='z-100'>{marker.props.post.text}</span>
                   <div className='flex justify-between items-center w-full pt-8'>

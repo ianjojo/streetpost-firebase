@@ -8,7 +8,8 @@ import { useRouter } from "next/router";
 export default function Pigeon({ notes, posts, id, key }) {
   let mapId = "4fb841be-1983-4093-b576-32caf8d3b89e";
   const router = useRouter();
-
+  const data = router.query;
+  console.log(data);
   const [location, setLocation] = useRecoilState(locationState);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function Pigeon({ notes, posts, id, key }) {
   useEffect(() => {
     allMarkers = displayMarkers(notes);
   }, [notes]);
-  console.log(allMarkers);
+
   let currentLatLng = [Number(location[0]), Number(location[1])];
   const mapTilerProvider = (x, y, z, dpr) => {
     return `https://api.maptiler.com/maps/streets-v2-dark/${z}/${x}/${y}.png?key=AodQuZmi32MyjzguIUO1`;
