@@ -92,7 +92,7 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
       setSortedNotes(matching);
       return;
     }
-  }, [sortBy]);
+  }, [sortBy, matching]);
   /* useEffect(() => {
     posts?.map((post) => {
       let distanceBetween = distance(
@@ -164,7 +164,7 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
       <Input getUserLocation={getUserLocation} location={location} />
       <div className='pb-72'>
         {sortedNotes.length < 1 && <Loading />}
-        {sortedNotes.map((post) => (
+        {sortedNotes?.map((post) => (
           <Post key={post.id} id={post.id} post={post.data()} />
         ))}
       </div>
