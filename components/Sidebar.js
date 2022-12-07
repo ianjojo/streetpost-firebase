@@ -24,12 +24,16 @@ export default function Sidebar() {
           Streetpost
         </h1>
       </div>
-      <div className='space-y-2.5 mt-4 mb-2.5 xl:ml-20  '>
+      <div className='mt-4 mb-2.5 xl:ml-20  '>
         <Link href='/'>
-          <SidebarLink text='Home' Icon={HomeIcon} active />
+          <SidebarLink text='Home' Icon={HomeIcon} active href='/' />
         </Link>
-        <SidebarLink text='Explore' Icon={HashtagIcon} />
-        <SidebarLink text='Map' Icon={BellIcon} />
+        <Link href='/explore'>
+          <SidebarLink text='Explore' Icon={HashtagIcon} href='explore' />
+        </Link>
+        <div onClick={signOut}>
+          <SidebarLink className='mt-0' text='Log out' Icon={BellIcon} />
+        </div>
       </div>
 
       {/*   <button className='hidden xl:inline ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]'>

@@ -6,7 +6,7 @@ import { locationState } from "../atoms/modalAtom";
 import Marker2 from "./Marker2";
 import { useRouter } from "next/router";
 import PostPreview from "./PostPreview";
-export default function Pigeon({ notes, posts, id, key }) {
+export default function Pigeon({ notes, posts, id, key, hideMap }) {
   let mapId = "4fb841be-1983-4093-b576-32caf8d3b89e";
   const router = useRouter();
 
@@ -57,7 +57,13 @@ export default function Pigeon({ notes, posts, id, key }) {
   };
   return (
     <div className='relative'>
-      <div className='mobilemycontainer z-2 bg-black absolute t-0 l-0 h-full  w-screen shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
+      <span
+        onClick={hideMap}
+        className='absolute top-[50px] left-4 text-[30px] px-2 text-black bg-white rounded-full z-50 cursor-pointer'
+      >
+        Ｘ
+      </span>
+      <div className='mobilemycontainer z-2 bg-black absolute  h-full  w-screen shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
         {/*   <div className='overlay'>
           <img src='/vintage-paper-texture-3.jpeg' alt='' />
         </div> */}

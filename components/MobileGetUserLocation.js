@@ -47,7 +47,7 @@ function GetUserLocation({}) {
   };
   const [location, setLocation] = useRecoilState(locationState);
   return (
-    <div className='flex  h-full z-50 sm:hidden'>
+    <div className='flex  h-full  sm:hidden'>
       {!location.length ? (
         <button className='text-white text-sm' onClick={getUserLocation}>
           {loading ? "loading..." : "Get Location"}

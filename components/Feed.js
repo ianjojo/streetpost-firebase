@@ -6,6 +6,7 @@ import { db } from "../firebase";
 import Post from "./Post";
 import { useRecoilState } from "recoil";
 import { locationState } from "../atoms/modalAtom";
+import { postsState } from "../atoms/modalAtom";
 import { useSession } from "next-auth/react";
 import GetUserLocation from "./GetUserLocation";
 import { useRouter } from "next/router";
@@ -17,8 +18,10 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
   const [gotLocation, setGotLocation] = useState(false);
   const [posts, setPosts] = useState([]);
   const [sortedNotes, setSortedNotes] = useState([]);
+  const [sortedNotesGlobal, setSortedNotesGlobal] = useRecoilState(postsState);
   const [queryDistance, setQueryDistance] = useState(5);
   const [sortBy, setSortBy] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const goHome = () => {
     hideMap();
@@ -44,14 +47,16 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
       onSnapshot(
         query(collection(db, "posts"), orderBy("timestamp", "desc")),
         (snapshot) => {
+          setLoading(true);
           setPosts(snapshot.docs);
-
           storeNotes(snapshot.docs);
           setSortBy("distance");
+          setLoading(false);
         }
       ),
     [db]
   );
+
   let nearNotes = [];
 
   let matching = posts.filter((note) => {
@@ -66,11 +71,10 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
     );
   });
 
-  // sort array by distance
-
-  useEffect(() => {
+  const sortPosts = () => {
     if (sortBy === "distance") {
       let sortedByDistance = matching;
+      setLoading(true);
       sortedByDistance.sort((a, b) => {
         return (
           distance(
@@ -88,11 +92,46 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
         );
       });
       setSortedNotes(sortedByDistance);
+      setLoading(false);
     } else {
+      setLoading(true);
       setSortedNotes(matching);
+      setLoading(false);
       return;
     }
-  }, [sortBy, matching]);
+  };
+
+  // sort array by distance
+
+  useEffect(() => {
+    if (sortBy === "distance") {
+      let sortedByDistance = matching;
+      setLoading(true);
+      sortedByDistance.sort((a, b) => {
+        return (
+          distance(
+            Number(location[0]),
+            Number(location[1]),
+            Number(a._document.data.value.mapValue.fields.lat.stringValue),
+            Number(a._document.data.value.mapValue.fields.lng.stringValue)
+          ) -
+          distance(
+            Number(location[0]),
+            Number(location[1]),
+            Number(b._document.data.value.mapValue.fields.lat.stringValue),
+            Number(b._document.data.value.mapValue.fields.lng.stringValue)
+          )
+        );
+      });
+      setSortedNotes(sortedByDistance);
+      setLoading(false);
+    } else {
+      setLoading(true);
+      setSortedNotes(matching);
+      setLoading(false);
+      return;
+    }
+  }, [sortBy]);
   /* useEffect(() => {
     posts?.map((post) => {
       let distanceBetween = distance(
@@ -113,18 +152,21 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
     if (sortBy === "date") {
       setSortBy("distance");
       console.log(sortBy);
+      sortPosts();
     } else {
       setSortBy("date");
       console.log(sortBy);
+      sortPosts();
     }
   };
+  useEffect(() => {
+    sortPosts();
+  }, [location]);
   return (
     <div className='text-white flex-grow  max-w-2xl sm:ml-[73px] xl:ml-[370px]      '>
       <div className='text-[#d9d9d9] flex items-center sm:justify-between py-2 px-3 sticky top-0 z-50 bg-black border-b border-accent-color'>
         <h2 className='hidden text-lg sm:text-xl sm:inline font-bold'>Posts</h2>
-        <span onClick={toggleSort}>
-          Sort by {sortBy === "date" ? "distance" : "date"}
-        </span>
+
         <div className='mobile-nav flex justify-between sm:hidden w-full space-x-2 bg-black z-50'>
           <h2 className='text-lg sm:text-xl font-bold z-50'>Streetpost</h2>
           <div className='flex justify-end space-x-3 items-center'>
@@ -162,8 +204,16 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
         </div>
       </div>
       <Input getUserLocation={getUserLocation} location={location} />
+      <div className='flex justify-center items-center'>
+        <span
+          onClick={toggleSort}
+          className='bg-[#763d83] cursor-pointer text-white rounded-md px-4 py-1 mb-1 text-[12px] shadow-md hover:bg-[#702989]'
+        >
+          Sort by {sortBy === "date" ? "distance" : "date"}
+        </span>
+      </div>
       <div className='pb-72'>
-        {sortedNotes.length < 1 && <Loading />}
+        {loading && <Loading />}
         {sortedNotes?.map((post) => (
           <Post key={post.id} id={post.id} post={post.data()} />
         ))}

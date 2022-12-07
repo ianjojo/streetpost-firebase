@@ -360,7 +360,7 @@
   font-style: italic;
 } /*# sourceMappingURL=Header.css.map */
 .mycontainer {
-  height: 50vh;
+  height: 96vh;
   display: flex;
   margin-top: 24px;
   justify-content: center;
@@ -384,12 +384,16 @@
 }
 
 .mobilemycontainer {
-  height: 100vh;
+  height: 90vh;
+  width: 90vw;
+
   display: flex;
   margin-top: 24px;
   justify-content: center;
   align-items: center;
   margin-bottom: 0 auto;
+  left: calc(10vw / 2);
+  top: calc(10vw / 2);
   /*   border-radius: 25px; */
 }
 .mycontainer div {
@@ -740,4 +744,68 @@
   100% {
     background-position: 50% 100%, 50% 0;
   }
+}
+
+.specialbg1 {
+  background-color: #5c24ff;
+}
+.specialbg2 {
+  background-color: #8f1f7c;
+}
+.specialbg3 {
+  background-color: #2553d0;
+}
+.specialbg4 {
+  background-color: #1f7992;
+}
+.specialbg5 {
+  background-color: #662131;
+}
+.parent {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 25%);
+  grid-auto-rows: 33.3%;
+  grid-gap: 0;
+}
+@media screen and (max-width: 768px) {
+  .parent {
+    grid-template-columns: repeat(auto-fill);
+    grid-auto-rows: 20%;
+  }
+}
+
+@media (max-width: 500px) {
+  .parent {
+    grid-template-columns: repeat(auto-fill);
+    grid-auto-rows: 15%;
+  }
+}
+.mosaic-image {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.mosaic-image:hover {
+  filter: grayscale(0);
+}
+
+.mosaic-chunk {
+  overflow: hidden;
+  filter: saturate(0.4);
+  transition: all 0.3s ease;
+}
+
+.mosaic-chunk:hover {
+  filter: saturate(1);
+}
+
+.parent > *:first-child {
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
 }

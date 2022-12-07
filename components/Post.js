@@ -25,7 +25,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Moment from "react-moment";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, postIdState, locationState } from "../atoms/modalAtom";
 import { db } from "../firebase";
 import GetUserLocation from "./GetUserLocation";
@@ -40,7 +40,8 @@ function Post({ id, post, postPage, getUserLocation }) {
   const [location, setLocation] = useRecoilState(locationState);
   const router = useRouter();
   const [distance, setDistance] = useState(0);
-
+  const myLocation = useRecoilValue(locationState);
+  console.log(myLocation);
   useEffect(
     () =>
       onSnapshot(
@@ -69,7 +70,14 @@ function Post({ id, post, postPage, getUserLocation }) {
 
   useEffect(() => {
     setDistance(getDistance(location[0], location[1], post?.lat, post?.long));
-  }, [location]);
+    console.log(
+      "location[0]: " + location[0],
+      "location[1]: " + location[1],
+      "post.lat: " + post?.lat,
+      "post.long: " + post?.long,
+      "distance: " + distance.toFixed(2) + " km"
+    );
+  }, [location, post]);
 
   const likePost = async () => {
     if (liked) {

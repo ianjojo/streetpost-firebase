@@ -14,3 +14,7 @@ export const locationState = atom({
   key: "locationState",
   default: [],
 });
+export const postsState = atom({
+  key: "postsState",
+  default: [],
+});

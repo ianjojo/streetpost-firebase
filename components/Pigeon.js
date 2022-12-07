@@ -69,9 +69,9 @@ export default function Pigeon({ notes, posts, id, key }) {
             maxZoom={18}
             mouseEvents={true}
           >
-            <Overlay anchor={currentLatLng} offset={[15, 15]}>
+            <Overlay anchor={currentLatLng} offset={[25, 25]}>
               <img
-                style={{ height: "30px", width: "30px" }}
+                style={{ height: "50px", width: "50px" }}
                 src='/location.png'
                 alt=''
               />

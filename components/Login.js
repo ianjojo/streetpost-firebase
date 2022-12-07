@@ -16,9 +16,9 @@ function Login({ providers }) {
           inscribe your memories upon the landscape.
         </p>
         <div className='button-ctn'>
-          <Link className='intro__link' href='/notes'>
+          {/*    <Link className='intro__link' href='/notes'>
             Explore notes
-          </Link>
+          </Link> */}
           {Object.values(providers).map((provider) => (
             <div key={provider.name}>
               {/* https://devdojo.com/tailwindcss/buttons#_ */}

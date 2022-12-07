@@ -137,7 +137,7 @@ export default function Input({ getUserLocation }) {
               <MobileGetUserLocation getUserLocation={getUserLocation} />
             </div>
             <button
-              className='bg-[#763d83] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#702989] disabled:hover:bg-[#4c2956] disabled:opacity-50 disabled:cursor-default'
+              className='bg-[#763d83] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#702989] disabled:hover:bg-[#4c2956] disabled:bg-[#6f298981] disabled:cursor-default'
               disabled={(!input.trim() && !selectedFile) || !location.length}
               onClick={sendPost}
             >

@@ -70,7 +70,7 @@ const Home = ({ providers }) => {
       </Head>
 
       <main className='bg-black min-h-screen flex max-w-[1500px] mx-auto'>
-        {mapIsOpen && <MobilePigeon notes={notes} />}
+        {mapIsOpen && <MobilePigeon hideMap={hideMap} notes={notes} />}
         <Sidebar />
         <span className='text-white text-lg'></span>
 
