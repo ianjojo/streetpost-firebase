@@ -184,6 +184,9 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
             <h2 className='text-md sm:text-xl   font-bold' onClick={toggleMap}>
               Map
             </h2>
+            <Link href='/explore'>
+              <h2 className='text-md sm:text-xl   font-bold'>Explore</h2>
+            </Link>
             <h2 className='text-md sm:text-xl   font-bold'>
               {!session ? "Login" : "Logout"}
             </h2>
