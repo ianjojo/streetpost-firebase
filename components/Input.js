@@ -82,7 +82,7 @@ export default function Input({ getUserLocation }) {
   };
   return (
     <div
-      className={` p-3 flex space-x-3 overflow-y-scroll ${
+      className={` p-3 flex space-x-3 overflow-y-scroll  rounded-2xl bg-zinc-900 glowbox z-10 transition ease-in-out ${
         loading && "opacity-60"
       }`}
     >
@@ -99,7 +99,7 @@ export default function Input({ getUserLocation }) {
             onChange={(e) => setInput(e.target.value)}
             rows='3'
             placeholder='Post something here...'
-            className='bg-transparent outline-none text-[#d9d9d9] text-lg placeholder-gray-500 tracking-wide w-full min-h-[50px] resize-none'
+            className='inputboxx bg-transparent outline-none text-[#d9d9d9] text-lg placeholder-gray-500   tracking-wide w-full min-h-[50px] resize-none'
           />
           {selectedFile && (
             <div className='relative'>

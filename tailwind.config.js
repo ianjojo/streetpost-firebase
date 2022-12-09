@@ -6,10 +6,10 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    fontFamily: {
+    /*     fontFamily: {
       chillax: ["Chillax-Variable", "cursive"],
       clashgrotesk: ["ClashGrotesk-Variable", "sans-serif"],
-    },
+    }, */
     extend: {
       colors: {
         "primary-color": "var(--primary-color)",
@@ -23,5 +23,4 @@ module.exports = {
       },
     },
   },
-  plugins: [],
 };

@@ -65,11 +65,11 @@ const Home = ({ providers }) => {
   return (
     <div className=''>
       <Head>
-        <title>Tweeter</title>
+        <title>Streetpost</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className='bg-black min-h-screen flex max-w-[1500px] mx-auto'>
+      <main className='bg-zinc-900 min-h-screen flex max-w-[1500px] mx-auto'>
         {mapIsOpen && <MobilePigeon hideMap={hideMap} notes={notes} />}
         <Sidebar />
         <span className='text-white text-lg'></span>

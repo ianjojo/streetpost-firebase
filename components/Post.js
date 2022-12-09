@@ -110,7 +110,7 @@ function Post({ id, post, postPage, getUserLocation }) {
 
   return (
     <div
-      className='p-3 flex rounded-xl cursor-pointer btn-gradient-border btn-glow mb-2'
+      className='p-3 flex rounded-xl cursor-pointer btn-gradient-border btn-glow mb-8 transition ease-in-out'
       onClick={() => router.push(`${id}`)}
     >
       {!postPage && (

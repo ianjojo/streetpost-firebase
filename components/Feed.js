@@ -164,10 +164,10 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
   }, [location]);
   return (
     <div className='text-white flex-grow  max-w-2xl sm:ml-[73px] xl:ml-[370px]      '>
-      <div className='text-[#d9d9d9] flex items-center sm:justify-between py-2 px-3 sticky top-0 z-50 bg-black border-b border-accent-color'>
+      <div className='text-[#d9d9d9] flex items-center sm:justify-between py-2 px-3 sticky top-0 z-5 bg-transparent  border-accent-color'>
         <h2 className='hidden text-lg sm:text-xl sm:inline font-bold'>Posts</h2>
 
-        <div className='mobile-nav flex justify-between sm:hidden w-full space-x-2 bg-black z-50'>
+        <div className='mobile-nav flex justify-between sm:hidden w-full space-x-2 bg-zinc-900 z-5'>
           <h2 className='text-lg sm:text-xl font-bold z-50'>Streetpost</h2>
           <div className='flex justify-end space-x-3 items-center'>
             <h2 className='text-md sm:text-xl font-bold' onClick={hideMap}>
@@ -210,7 +210,7 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
       <div className='flex justify-center items-center'>
         <span
           onClick={toggleSort}
-          className='bg-[#763d83] cursor-pointer text-white rounded-md px-4 py-1 mb-1 text-[12px] shadow-md hover:bg-[#702989]'
+          className='bg-[#580c51] buttonglow cursor-pointer text-white rounded-md px-4 py-1 mb-4 mt-4 text-[12px] shadow-md hover:bg-[#702989] transition duration-200 ease-in-out'
         >
           Sort by {sortBy === "date" ? "distance" : "date"}
         </span>

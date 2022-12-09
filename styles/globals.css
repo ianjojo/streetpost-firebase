@@ -46,7 +46,7 @@
 }
 @layer base {
   body {
-    @apply bg-black;
+    @apply bg-zinc-900;
   }
 }
 
@@ -199,20 +199,37 @@
 .btn-gradient-border {
   border: 2px double transparent;
   background-image: linear-gradient(
-      rgba(13, 14, 33, 0.2),
-      rgba(13, 14, 33, 0.3)
+      rgba(28, 30, 73, 0.2),
+      rgba(26, 28, 65, 0.3)
     ),
     radial-gradient(
       circle at left top,
       rgba(1, 110, 218, 0.15),
-      rgba(217, 0, 192, 0.2)
+      rgba(90, 0, 79, 0.2)
     );
+  /*   background-color: #392b39; */
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }
-
+.buttonglow {
+  -webkit-box-shadow: 0px 0px 43px 2px rgba(210, 73, 222, 0.38);
+  -moz-box-shadow: 0px 0px 43px 2px rgba(210, 73, 222, 0.38);
+  box-shadow: 0px 0px 43px 2px rgba(210, 73, 222, 0.38);
+}
+.glowbox:focus-within {
+  -webkit-box-shadow: 0px 0px 53px 12px rgba(73, 73, 222, 0.34);
+  -moz-box-shadow: 0px 0px 53px 12px rgba(73, 73, 222, 0.34);
+  box-shadow: 0px 0px 53px 12px rgba(73, 73, 222, 0.34);
+}
+.btn-gradient-border:hover {
+  -webkit-box-shadow: 0px 0px 180px 31px rgba(133, 28, 168, 0.21);
+  -moz-box-shadow: 0px 0px 180px 31px rgba(133, 28, 168, 0.21);
+  box-shadow: 0px 0px 180px 31px rgba(133, 28, 168, 0.21);
+}
 .btn-glow:hover {
-  box-shadow: rgba(237, 70, 204, 0.21) 0px 0px 20px 0px;
+  -webkit-box-shadow: 0px 0px 180px 31px rgba(133, 28, 168, 0.21);
+  -moz-box-shadow: 0px 0px 180px 31px rgba(133, 28, 168, 0.21);
+  box-shadow: 0px 0px 180px 31px rgba(133, 28, 168, 0.21);
 }
 .button-ctn {
   display: flex;
@@ -366,9 +383,12 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 0 auto;
-  /*   border-radius: 25px; */
+  border-radius: 25px;
   background: black;
   position: relative;
+  -webkit-box-shadow: 0px 0px 180px 31px rgba(133, 60, 201, 0.21);
+  -moz-box-shadow: 0px 0px 180px 31px rgba(133, 60, 201, 0.21);
+  box-shadow: 0px 0px 180px 31px rgba(133, 60, 201, 0.21);
 }
 .mycontainermini {
   height: 300px;
@@ -397,7 +417,7 @@
   /*   border-radius: 25px; */
 }
 .mycontainer div {
-  /*   border-radius: 25px; */
+  border-radius: 25px;
 }
 
 .overlay {
