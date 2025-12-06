@@ -4,9 +4,8 @@ import Image from "next/image";
 import Sidebar from "../components/Sidebar";
 import { getProviders, getSession, useSession } from "next-auth/react";
 import Feed from "../components/Feed";
-import Login from "../components/Login";
 import Modal from "../components/Modal";
-import Widgets from "../components/Widgets";
+import MapSidebar from "../components/MapSidebar";
 import { useRecoilState } from "recoil";
 import { modalState, locationState } from "../atoms/modalAtom";
 import { useLocationState } from "../atoms/modalAtom";
@@ -48,7 +47,7 @@ const Home = ({ providers }) => {
   const [notes, setNotes] = useState([]);
   useEffect(() => {
     getUserLocation();
-  }, []);
+  }, [session]);
   const storeNotes = (notes) => {
     setNotes(notes);
   };
@@ -61,7 +60,7 @@ const Home = ({ providers }) => {
     setMapIsOpen(false);
   };
 
-  if (!session) return <Login providers={providers} />;
+
   return (
     <div className=''>
       <Head>
@@ -69,10 +68,9 @@ const Home = ({ providers }) => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className='bg-zinc-900 min-h-screen flex max-w-[1500px] mx-auto'>
+      <main className='min-h-screen flex max-w-[1900px] mx-auto'>
         {mapIsOpen && <MobilePigeon hideMap={hideMap} notes={notes} />}
         <Sidebar />
-        <span className='text-white text-lg'></span>
 
         <Feed
           getUserLocation={getUserLocation}
@@ -81,9 +79,9 @@ const Home = ({ providers }) => {
           toggleMap={toggleMap}
           hideMap={hideMap}
         />
-        <Widgets notes={notes} />
-        {/* Feed */}
-        {/* Widgets */}
+
+        {/* Permanent Map Sidebar - Desktop Only */}
+        <MapSidebar notes={notes} />
 
         {/* Modal */}
         {isOpen && <Modal />}

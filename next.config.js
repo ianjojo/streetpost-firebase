@@ -2,6 +2,11 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["rb.gy"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "rb.gy",
+      },
+    ],
   },
 };

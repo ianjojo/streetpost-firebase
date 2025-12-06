@@ -59,11 +59,11 @@ export default function Pigeon({ notes, posts, id, key, hideMap }) {
     <div className='relative'>
       <span
         onClick={hideMap}
-        className='absolute top-[50px] left-4 text-[30px] px-2 text-black bg-white rounded-full z-50 cursor-pointer'
+        className='absolute top-[50px] left-4 text-[30px] px-2 text-black bg-white/80 backdrop-blur-md rounded-full z-50 cursor-pointer'
       >
         Ｘ
       </span>
-      <div className='mobilemycontainer z-2 bg-black absolute  h-full  w-screen shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
+      <div className='mobilemycontainer z-2 glass absolute  h-full  w-screen shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
         {/*   <div className='overlay'>
           <img src='/vintage-paper-texture-3.jpeg' alt='' />
         </div> */}

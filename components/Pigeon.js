@@ -55,11 +55,8 @@ export default function Pigeon({ notes, posts, id, key }) {
     return `https://api.maptiler.com/maps/jp-mierune-dark/${z}/${x}/${y}.png?key=AodQuZmi32MyjzguIUO1`;
   };
   return (
-    <div className=' '>
-      <div className='mycontainer bg-black relative shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
-        {/*   <div className='overlay'>
-          <img src='/vintage-paper-texture-3.jpeg' alt='' />
-        </div> */}
+    <div className='w-full h-full'>
+      <div className='h-full w-full rounded-2xl overflow-hidden relative'>
         {location.length > 0 ? (
           <Map
             provider={mapTilerProvider}
@@ -69,13 +66,24 @@ export default function Pigeon({ notes, posts, id, key }) {
             maxZoom={18}
             mouseEvents={true}
           >
+            {/* User Location Marker */}
             <Overlay anchor={currentLatLng} offset={[25, 25]}>
-              <img
-                style={{ height: "50px", width: "50px" }}
-                src='/location.png'
-                alt=''
-              />
+              <div className='relative'>
+                {/* Pulsing Ring */}
+                <div className='absolute inset-0 animate-ping'>
+                  <div className='w-12 h-12 rounded-full bg-pink-500/30'></div>
+                </div>
+                {/* Location Pin */}
+                <img
+                  style={{ height: "50px", width: "50px" }}
+                  src='/location.png'
+                  alt=''
+                  className='relative z-10'
+                />
+              </div>
             </Overlay>
+
+            {/* Post Markers */}
             {allMarkers.map((marker) => (
               <Overlay
                 key={marker.key}
@@ -86,33 +94,64 @@ export default function Pigeon({ notes, posts, id, key }) {
                 className='group relative'
               >
                 <span
-                  className='cursor-pointer xmarker'
+                  className='cursor-pointer hover:scale-125 transition-transform duration-200'
                   onClick={() => router.push(`${marker.key}`)}
                 >
-                  <img
-                    style={{ height: "25px", width: "25px" }}
-                    src='./marker.png'
-                    alt=''
-                  />
-                </span>
-                <div className='p-8 w-[200px] rounded-2xl hidden group-hover:inline bg-violet-800/20 absolute t-24 z-100 ml-4 mb-4'>
-                  <span className='z-100'>{marker.props.post.text}</span>
-                  <div className='flex justify-between items-center w-full pt-8'>
-                    <img
-                      src={marker.props.post.userImg}
-                      className='h-8 w-8 rounded-full'
-                      alt=''
+                  {/* Modern Marker Icon */}
+                  <svg className='w-8 h-8 drop-shadow-lg' viewBox='0 0 24 24' fill='none'>
+                    <path
+                      d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z'
+                      fill='url(#gradient)'
+                      stroke='white'
+                      strokeWidth='1'
                     />
-                    <span className='z-100 text-[8px]'>
-                      {marker.props.post.username}
-                    </span>
+                    <circle cx='12' cy='9' r='2.5' fill='white' />
+                    <defs>
+                      <linearGradient id='gradient' x1='0%' y1='0%' x2='100%' y2='100%'>
+                        <stop offset='0%' stopColor='#ec4899' />
+                        <stop offset='100%' stopColor='#a855f7' />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </span>
+
+                {/* Hover Card */}
+                <div className='hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50'>
+                  <div className='glass-panel p-4 rounded-xl w-[220px] shadow-xl'>
+                    <p className='text-white text-sm line-clamp-3 mb-3'>
+                      {marker.props.post.text}
+                    </p>
+                    <div className='flex items-center gap-2'>
+                      <img
+                        src={marker.props.post.userImg}
+                        className='h-6 w-6 rounded-full ring-1 ring-white/20'
+                        alt=''
+                        referrerPolicy='no-referrer'
+                      />
+                      <span className='text-gray-300 text-xs font-medium'>
+                        {marker.props.post.username}
+                      </span>
+                    </div>
+                  </div>
+                  {/* Arrow */}
+                  <div className='absolute top-full left-1/2 -translate-x-1/2 -mt-1'>
+                    <div className='w-3 h-3 bg-[rgba(15,12,41,0.85)] rotate-45 border-b border-r border-white/5'></div>
                   </div>
                 </div>
               </Overlay>
             ))}
           </Map>
         ) : (
-          "no location"
+          <div className='h-full flex items-center justify-center glass-panel rounded-2xl'>
+            <div className='text-center p-8'>
+              <svg className='w-16 h-16 text-gray-600 mx-auto mb-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' />
+                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 11a3 3 0 11-6 0 3 3 0 016 0z' />
+              </svg>
+              <h3 className='text-lg font-semibold text-white mb-2'>Location Required</h3>
+              <p className='text-gray-400 text-sm'>Enable location access to view the map</p>
+            </div>
+          </div>
         )}
       </div>
     </div>

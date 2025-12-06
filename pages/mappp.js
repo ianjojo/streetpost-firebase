@@ -57,7 +57,7 @@ export default function Pigeon({ notes, posts, id, key }) {
   };
   return (
     <div className=' '>
-      <div className='h-full w-full bg-black relative shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
+      <div className='h-full w-full bg-transparent relative shadow-[0_0px_5px_rgba(240,_46,_170,_0.7)]'>
         {/*   <div className='overlay'>
           <img src='/vintage-paper-texture-3.jpeg' alt='' />
         </div> */}

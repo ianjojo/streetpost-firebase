@@ -12,7 +12,7 @@ import GetUserLocation from "./GetUserLocation";
 import { useRouter } from "next/router";
 import Loading from "./Loading";
 import Link from "next/link";
-function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
+function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap, mapIsOpen }) {
   const router = useRouter();
   const { data: session } = useSession();
   const [gotLocation, setGotLocation] = useState(false);
@@ -163,57 +163,42 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap }) {
     sortPosts();
   }, [location]);
   return (
-    <div className='text-white flex-grow  max-w-2xl sm:ml-[73px] xl:ml-[370px]      '>
-      <div className='text-[#d9d9d9] flex items-center sm:justify-between py-2 px-3 sticky top-0 z-5 bg-transparent  border-accent-color'>
-        <h2 className='hidden text-lg sm:text-xl sm:inline font-bold'>Posts</h2>
+    <div className='text-white flex-grow max-w-2xl sm:ml-[73px] xl:ml-[370px] px-4'>
+      <div className='text-white flex items-center sm:justify-between py-4 sticky top-0 z-10 backdrop-blur-md bg-[#030014]/80 -mx-4 px-4 mb-4'>
+        <h2 className='hidden text-2xl sm:inline font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent'>
+          Feed
+        </h2>
 
-        <div className='mobile-nav flex justify-between sm:hidden w-full space-x-2 bg-zinc-900 z-5'>
-          <h2 className='text-lg sm:text-xl font-bold z-50'>Streetpost</h2>
-          <div className='flex justify-end space-x-3 items-center'>
-            <h2 className='text-md sm:text-xl font-bold' onClick={hideMap}>
+        <div className='mobile-nav flex justify-between sm:hidden w-full space-x-2'>
+          <h2 className='text-xl font-bold'>Streetpost</h2>
+          <div className='flex justify-end space-x-3 items-center text-sm'>
+            <h2 className='font-medium hover:text-pink-400 transition-colors cursor-pointer' onClick={hideMap}>
               Posts
             </h2>
-            {/*    <Link
-              href={{
-                pathname: "/map",
-                query: { location: location, posts: posts },
-              }}
-            >
-              <h2 className='text-md sm:text-xl   font-bold'>Map</h2>
-            </Link> */}
-            <h2 className='text-md sm:text-xl   font-bold' onClick={toggleMap}>
+            <h2 className='font-medium hover:text-pink-400 transition-colors cursor-pointer' onClick={toggleMap}>
               Map
             </h2>
             <Link href='/explore'>
-              <h2 className='text-md sm:text-xl   font-bold'>Explore</h2>
+              <h2 className='font-medium hover:text-pink-400 transition-colors cursor-pointer'>Explore</h2>
             </Link>
-            <h2 className='text-md sm:text-xl   font-bold'>
+            <h2 className='font-medium hover:text-pink-400 transition-colors cursor-pointer'>
               {!session ? "Login" : "Logout"}
             </h2>
           </div>
         </div>
 
-        <div className='  flex items-center  xl:px-0 ml-auto'>
+        <div className='hidden sm:flex items-center gap-3 xl:px-0 ml-auto'>
           <GetUserLocation getUserLocation={getUserLocation} />
-
-          {/*  {location.length > 0 && (
-            <div onClick={() => getUserLocation}>
-              <span className='text-white text-[10px] font-bold mr-2'>
-                your location:{"   "}
-              </span>
-              <span className='text-white text-[10px]'>{` ${location[0]}, ${location[1]}`}</span>
-            </div>
-          )} */}
         </div>
       </div>
       <Input getUserLocation={getUserLocation} location={location} />
-      <div className='flex justify-center items-center'>
-        <span
+      <div className='flex justify-center items-center mb-4'>
+        <button
           onClick={toggleSort}
-          className='bg-[#580c51] buttonglow cursor-pointer text-white rounded-md px-4 py-1 mb-4 mt-4 text-[12px] shadow-md hover:bg-[#702989] transition duration-200 ease-in-out'
+          className='glass-panel px-6 py-2 rounded-xl text-sm font-medium hover:bg-pink-500/10 transition-all duration-200 hover:scale-105'
         >
           Sort by {sortBy === "date" ? "distance" : "date"}
-        </span>
+        </button>
       </div>
       <div className='pb-72'>
         {loading && <Loading />}

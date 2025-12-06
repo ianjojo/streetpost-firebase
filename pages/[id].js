@@ -48,7 +48,7 @@ function PostPage({ trendingResults, followResults, providers }) {
     [db, id]
   );
 
-  if (!session) return <Login providers={providers} />;
+  // Removed login requirement - unauthenticated users can view posts
   console.log(id);
   return (
     <div>

@@ -6,10 +6,11 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    /*     fontFamily: {
-      chillax: ["Chillax-Variable", "cursive"],
-      clashgrotesk: ["ClashGrotesk-Variable", "sans-serif"],
-    }, */
+    fontFamily: {
+      sans: ["CabinetGrotesk-Variable", "sans-serif"],
+      chillax: ["Chillax-Variable", "sans-serif"],
+      clash: ["ClashGrotesk-Variable", "sans-serif"],
+    },
     extend: {
       colors: {
         "primary-color": "var(--primary-color)",
@@ -23,4 +24,5 @@ module.exports = {
       },
     },
   },
+  plugins: [require("daisyui")],
 };

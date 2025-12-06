@@ -1,69 +1,46 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { locationState } from "../atoms/modalAtom";
+import { MapPinIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 
-function GetUserLocation({}) {
+function GetUserLocation({ getUserLocation }) {
   const [loading, setLoading] = useState(false);
-  const getUserLocation = () => {
-    const success = (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      let trimLat = latitude.toFixed(4);
-      let trimLong = longitude.toFixed(4);
-
-      let numLat = Number(trimLat);
-      let numLng = Number(trimLong);
-
-      setLocation([trimLat, trimLong]);
-      setLoading(false);
-    };
-    const error = () => {
-      console.log("Unable to retrieve your location");
-    };
-    setLoading(true);
-    console.log("gettng location");
-    navigator.geolocation.getCurrentPosition(success, error);
-  };
-  const regetUserLocation = () => {
-    const success = (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      let trimLat = latitude.toFixed(4);
-      let trimLong = longitude.toFixed(4);
-
-      let numLat = Number(trimLat);
-      let numLng = Number(trimLong);
-
-      setLocation([trimLat, trimLong]);
-      setLoading(false);
-    };
-    const error = () => {
-      console.log("Unable to retrieve your location");
-    };
-    setLocation([]);
-    setLoading(true);
-    console.log("gettng location");
-    navigator.geolocation.getCurrentPosition(success, error);
-  };
   const [location, setLocation] = useRecoilState(locationState);
+
+  const handleGetLocation = () => {
+    setLoading(true);
+    getUserLocation();
+    // Set loading to false after a delay since we don't have a callback
+    setTimeout(() => setLoading(false), 1000);
+  };
+
+  const regetUserLocation = () => {
+    setLoading(true);
+    getUserLocation();
+    setTimeout(() => setLoading(false), 1000);
+  };
+
   return (
-    <div className='flex  h-full z-50 hidden sm:inline'>
+    <div className='hidden sm:flex items-center h-full z-50'>
       {!location.length ? (
-        <button className='text-white text-sm' onClick={getUserLocation}>
-          {loading ? "loading..." : "Get Location"}
+        <button
+          className='glass-light px-4 py-2 rounded-xl text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200 flex items-center gap-2'
+          onClick={handleGetLocation}
+        >
+          <MapPinIcon className='h-4 w-4' />
+          {loading ? "Getting location..." : "Get Location"}
         </button>
       ) : (
         <div
-          className='flex items-center h-full z-100 pr-4'
+          className='glass-light px-4 py-2 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-white/10 transition-all duration-200 group'
           onClick={regetUserLocation}
         >
-          <span className='text-white text-[10px] font-bold pr-4 '>
-            your location:{"   "}
-          </span>
-          <span className='text-white text-[10px] '>{` ${location[0]}, ${location[1]}`}</span>
-          <span className='text-white text-[10px] font-bold ml-2 '>
-            refresh
-          </span>
+          <MapPinIcon className='h-4 w-4 text-pink-400' />
+          <div className='flex flex-col'>
+            <span className='text-xs text-gray-400'>Your Location</span>
+            <span className='text-xs font-mono text-white'>{location[0]}, {location[1]}</span>
+          </div>
+          <ArrowPathIcon className={`h-4 w-4 text-gray-400 group-hover:text-pink-400 transition-colors ${loading ? 'animate-spin' : ''}`} />
         </div>
       )}
     </div>
@@ -71,3 +48,4 @@ function GetUserLocation({}) {
 }
 
 export default GetUserLocation;
+
