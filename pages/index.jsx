@@ -17,24 +17,53 @@ import MobilePigeon from "../components/MobilePigeon";
 
 const Home = ({ providers }) => {
   const getUserLocation = () => {
+    // Check if geolocation is available
+    if (!navigator.geolocation) {
+      console.error("Geolocation is not supported by this browser.");
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
+
     const success = (position) => {
+      console.log("Location obtained:", position.coords);
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
       let trimLat = latitude.toFixed(4);
       let trimLong = longitude.toFixed(4);
 
-      let numLat = Number(trimLat);
-      let numLng = Number(trimLong);
-
       setLat(trimLat);
       setLng(trimLong);
       setLocation([trimLat, trimLong]);
     };
-    const error = () => {
-      console.log("Unable to retrieve your location");
+
+    const error = (err) => {
+      console.error("Error getting location:", err.code, err.message);
+
+      switch (err.code) {
+        case err.PERMISSION_DENIED:
+          alert("Location permission denied. Please enable location access in your browser settings.");
+          break;
+        case err.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case err.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        default:
+          alert("An unknown error occurred while getting your location.");
+          break;
+      }
     };
 
-    navigator.geolocation.getCurrentPosition(success, error);
+    // Request location with options for better accuracy and timeout
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    };
+
+    console.log("Requesting location permission...");
+    navigator.geolocation.getCurrentPosition(success, error, options);
   };
 
   const { data: session } = useSession();
