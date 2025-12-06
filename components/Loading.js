@@ -5,7 +5,8 @@ export default function Loading() {
     <div className='w-full space-y-6 py-8'>
       {/* Skeleton Cards */}
       {[1, 2, 3].map((i) => (
-        <div key={i} className='glass-panel p-6 rounded-2xl animate-pulse'>
+        <div key={i} className='glass-magical p-6 rounded-[24px] animate-pulse relative overflow-hidden'>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-100%] animate-[shimmer_2s_infinite]" />
           <div className='flex gap-4'>
             {/* Avatar Skeleton */}
             <div className='h-12 w-12 rounded-full bg-gray-700/50'></div>

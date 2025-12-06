@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SparklesIcon } from "@heroicons/react/24/outline";
+import { motion, AnimatePresence } from "framer-motion";
 import Input from "./Input";
 import { onSnapshot, collection, query, orderBy } from "@firebase/firestore";
 import { db } from "../firebase";
@@ -192,20 +193,47 @@ function Feed({ getUserLocation, storeNotes, location, toggleMap, hideMap, mapIs
         </div>
       </div>
       <Input getUserLocation={getUserLocation} location={location} />
-      <div className='flex justify-center items-center mb-4'>
-        <button
+
+      <div className='flex justify-center items-center mb-8'>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={toggleSort}
-          className='glass-panel px-6 py-2 rounded-xl text-sm font-medium hover:bg-pink-500/10 transition-all duration-200 hover:scale-105'
+          className='glass-panel px-6 py-2 rounded-xl text-sm font-medium hover:bg-pink-500/10 transition-all duration-200 text-gray-300 hover:text-white border border-white/5'
         >
           Sort by {sortBy === "date" ? "distance" : "date"}
-        </button>
+        </motion.button>
       </div>
-      <div className='pb-72'>
-        {loading && <Loading />}
-        {sortedNotes?.map((post) => (
-          <Post key={post.id} id={post.id} post={post.data()} />
-        ))}
-      </div>
+
+      <motion.div
+        className='pb-72'
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: {
+            transition: {
+              staggerChildren: 0.1
+            }
+          }
+        }}
+      >
+        <AnimatePresence mode="popLayout">
+          {loading && (
+            <motion.div
+              key="loader"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Loading />
+            </motion.div>
+          )}
+
+          {!loading && sortedNotes?.map((post) => (
+            <Post key={post.id} id={post.id} post={post.data()} />
+          ))}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 }

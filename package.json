@@ -12,6 +12,7 @@
     "@tailwindcss/postcss": "^4.1.17",
     "daisyui": "^5.5.8",
     "firebase": "^12.6.0",
+    "framer-motion": "^12.23.25",
     "moment": "^2.29.4",
     "next": "^16.0.7",
     "next-auth": "^4.24.13",

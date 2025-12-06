@@ -29,8 +29,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, postIdState, locationState } from "../atoms/modalAtom";
 import { db } from "../firebase";
 import GetUserLocation from "./GetUserLocation";
+import { motion } from "framer-motion";
 
-function Post({ id, post, postPage, getUserLocation }) {
+function Post({ id, post, postPage, index }) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modalState);
   const [postId, setPostId] = useRecoilState(postIdState);
@@ -40,26 +41,31 @@ function Post({ id, post, postPage, getUserLocation }) {
   const [location, setLocation] = useRecoilState(locationState);
   const router = useRouter();
   const [distance, setDistance] = useState(0);
-  const myLocation = useRecoilValue(locationState);
-  console.log(myLocation);
+
   useEffect(
-    () =>
-      onSnapshot(
+    () => {
+      if (!id) return;
+      return onSnapshot(
         query(
           collection(db, "posts", id, "comments"),
           orderBy("timestamp", "desc")
         ),
         (snapshot) => setComments(snapshot.docs)
-      ),
+      );
+    },
     [db, id]
   );
+
   useEffect(
-    () =>
-      onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
+    () => {
+      if (!id) return;
+      return onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
         setLikes(snapshot.docs)
-      ),
+      );
+    },
     [db, id]
   );
+
   useEffect(
     () =>
       setLiked(
@@ -70,13 +76,6 @@ function Post({ id, post, postPage, getUserLocation }) {
 
   useEffect(() => {
     setDistance(getDistance(location[0], location[1], post?.lat, post?.long));
-    console.log(
-      "location[0]: " + location[0],
-      "location[1]: " + location[1],
-      "post.lat: " + post?.lat,
-      "post.long: " + post?.long,
-      "distance: " + distance.toFixed(2) + " km"
-    );
   }, [location, post]);
 
   const likePost = async () => {
@@ -92,7 +91,7 @@ function Post({ id, post, postPage, getUserLocation }) {
       });
     }
   };
-  // get the distance in kilometers between two points
+
   const getDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Radius of the earth in km
     const dLat = deg2rad(lat2 - lat1); // deg2rad below
@@ -112,45 +111,65 @@ function Post({ id, post, postPage, getUserLocation }) {
     return deg * (Math.PI / 180);
   };
 
+  const postVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, ease: "easeOut" }
+    }
+  };
+
   return (
-    <div
-      className='glass-panel p-6 rounded-2xl cursor-pointer mb-6 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_8px_30px_rgba(236,72,153,0.15)] group'
+    <motion.div
+      variants={postVariants}
+      whileHover={{ y: -5, scale: 1.01 }}
       onClick={() => router.push(`${id}`)}
+      className='glass-magical p-6 rounded-[24px] cursor-pointer mb-6 group relative overflow-hidden transition-colors border border-white/5 hover:border-pink-500/20'
     >
-      <div className='flex gap-4'>
+      {/* Decorative gradient overlay on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+      <div className='flex gap-4 relative z-10'>
         {!postPage && (
-          <img
-            src={post?.userImg}
-            alt='profile pic'
-            className='h-12 w-12 rounded-full ring-2 ring-pink-500/20 group-hover:ring-pink-500/40 transition-all'
-            referrerPolicy='no-referrer'
-          />
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-tr from-pink-500 to-purple-500 rounded-full blur opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+            <img
+              src={post?.userImg}
+              alt='profile pic'
+              className='h-12 w-12 rounded-full ring-2 ring-white/10 group-hover:ring-pink-400/50 transition-all object-cover relative z-10'
+              referrerPolicy='no-referrer'
+            />
+          </div>
         )}
         <div className='flex-1 min-w-0'>
           {/* Header */}
           <div className='flex items-start justify-between mb-3'>
             <div className='flex items-center gap-3 flex-wrap'>
               {postPage && (
-                <img
-                  src={post?.userImg}
-                  alt='profile pic'
-                  className='h-12 w-12 rounded-full ring-2 ring-pink-500/20'
-                  referrerPolicy='no-referrer'
-                />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-pink-500 to-purple-500 rounded-full blur opacity-40" />
+                  <img
+                    src={post?.userImg}
+                    alt='profile pic'
+                    className='h-12 w-12 rounded-full ring-2 ring-white/20 relative z-10'
+                    referrerPolicy='no-referrer'
+                  />
+                </div>
               )}
               <div>
-                <h4 className='font-bold text-base text-white group-hover:text-pink-400 transition-colors'>
+                <h4 className='font-bold text-base text-white group-hover:text-pink-300 transition-colors tracking-wide'>
                   {post?.username}
                 </h4>
-                <div className='flex items-center gap-2 text-sm text-gray-400'>
-                  <span className='flex items-center gap-1'>
-                    <svg className='w-4 h-4' fill='currentColor' viewBox='0 0 20 20'>
+                <div className='flex items-center gap-2 text-sm text-gray-400/80 font-light'>
+                  <span className='flex items-center gap-1 group-hover:text-pink-200/70 transition-colors'>
+                    <svg className='w-3.5 h-3.5' fill='currentColor' viewBox='0 0 20 20'>
                       <path fillRule='evenodd' d='M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z' clipRule='evenodd' />
                     </svg>
                     {distance.toFixed(2)} km away
                   </span>
-                  <span>·</span>
-                  <span className='hover:underline'>
+                  <span className="text-gray-600">·</span>
+                  <span className='hover:text-white transition-colors'>
                     <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
                   </span>
                 </div>
@@ -158,18 +177,20 @@ function Post({ id, post, postPage, getUserLocation }) {
             </div>
 
             {/* Like button in header */}
-            <div
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               className='flex items-center space-x-1 group/like'
               onClick={(e) => {
                 e.stopPropagation();
                 likePost();
               }}
             >
-              <div className='p-2 rounded-full hover:bg-pink-500/10 transition-colors'>
+              <div className={`p-2 rounded-full transition-colors ${liked ? 'bg-pink-500/20' : 'hover:bg-white/10'}`}>
                 {liked ? (
-                  <HeartIconFilled className='h-5 w-5 text-pink-500' />
+                  <HeartIconFilled className='h-5 w-5 text-pink-500 drop-shadow-[0_0_10px_rgba(236,72,153,0.5)]' />
                 ) : (
-                  <HeartIcon className='h-5 w-5 text-gray-400 group-hover/like:text-pink-500 transition-colors' />
+                  <HeartIcon className='h-5 w-5 text-gray-400 group-hover/like:text-pink-400 transition-colors' />
                 )}
               </div>
               {likes.length > 0 && (
@@ -177,36 +198,33 @@ function Post({ id, post, postPage, getUserLocation }) {
                   {likes.length}
                 </span>
               )}
-            </div>
+            </motion.div>
           </div>
 
           {/* Content */}
-          {!postPage && (
-            <p className='text-gray-200 text-base leading-relaxed mb-4'>
-              {post?.text}
-            </p>
-          )}
-          {postPage && (
-            <p className='text-gray-200 text-base leading-relaxed mb-4'>
-              {post?.text}
-            </p>
-          )}
+          <p className={`text-gray-100 text-[15px] leading-relaxed mb-4 font-light tracking-wide ${!postPage && 'line-clamp-6'}`}>
+            {post?.text}
+          </p>
 
           {/* Image */}
           {post?.image && (
-            <img
-              src={post?.image}
-              className='rounded-xl w-full object-cover mb-4 max-h-96'
-              alt=''
-              referrerPolicy='no-referrer'
-            />
+            <div className="relative rounded-2xl overflow-hidden mb-4 border border-white/5">
+              <img
+                src={post?.image}
+                className='w-full object-cover max-h-[500px] hover:scale-105 transition-transform duration-700'
+                alt=''
+                referrerPolicy='no-referrer'
+              />
+            </div>
           )}
 
           {/* Actions */}
-          <div className='flex items-center justify-between pt-3 border-t border-gray-700/50'>
+          <div className='flex items-center justify-between pt-3 border-t border-white/5 mt-2'>
             <div className='flex items-center gap-4'>
               {session?.user?.uid === post?.id ? (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   className='flex items-center gap-2 text-gray-400 hover:text-red-400 transition-colors p-2 rounded-lg hover:bg-red-500/10'
                   onClick={(e) => {
                     e.stopPropagation();
@@ -214,17 +232,19 @@ function Post({ id, post, postPage, getUserLocation }) {
                     router.push("/");
                   }}
                 >
-                  <TrashIcon className='h-5 w-5' />
-                  <span className='text-sm font-medium'>Delete</span>
-                </button>
+                  <TrashIcon className='h-4 w-4' />
+                  <span className='text-xs font-medium'>Delete</span>
+                </motion.button>
               ) : (
-                <div></div>
+                <div />
               )}
             </div>
 
-            <div className='flex items-center gap-4'>
-              <button
-                className='flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-blue-500/10'
+            <div className='flex items-center gap-2'>
+              <motion.button
+                whileHover={{ scale: 1.1, backgroundColor: "rgba(59, 130, 246, 0.1)" }}
+                whileTap={{ scale: 0.9 }}
+                className='flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-all p-2 rounded-xl'
                 onClick={(e) => {
                   e.stopPropagation();
                   if (!session) {
@@ -239,16 +259,20 @@ function Post({ id, post, postPage, getUserLocation }) {
                 {comments.length > 0 && (
                   <span className='text-sm font-medium'>{comments.length}</span>
                 )}
-              </button>
+              </motion.button>
 
-              <button className='flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors p-2 rounded-lg hover:bg-purple-500/10'>
+              <motion.button
+                whileHover={{ scale: 1.1, backgroundColor: "rgba(168, 85, 247, 0.1)" }}
+                whileTap={{ scale: 0.9 }}
+                className='flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-all p-2 rounded-xl'
+              >
                 <ShareIcon className='h-5 w-5' />
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -79,7 +79,7 @@ function Modal() {
             enterTo='opacity-100 translate-y-0 sm:scale-100'
             leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
           >
-            <div className='inline-block align-bottom glass-panel rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full'>
+            <div className='inline-block align-bottom glass-magical rounded-[32px] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full border border-white/10'>
               {/* Header with Floating Close Button */}
               <div className='relative flex items-center justify-center px-6 py-4 border-b border-white/5'>
                 <h3 className='text-lg font-semibold text-white'>Reply to Post</h3>
