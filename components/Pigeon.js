@@ -61,7 +61,7 @@ export default function Pigeon({ notes, posts, id, key }) {
           <Map
             provider={mapTilerProvider}
             center={currentLatLng}
-            defaultZoom={18}
+            defaultZoom={16}
             minZoom={12}
             maxZoom={18}
             mouseEvents={true}
@@ -93,38 +93,56 @@ export default function Pigeon({ notes, posts, id, key }) {
                 ]}
                 className='group relative'
               >
-                <span
-                  className='cursor-pointer hover:scale-125 transition-transform duration-200'
+                <div
+                  className='cursor-pointer hover:scale-110 transition-transform duration-200'
                   onClick={() => router.push(`${marker.key}`)}
                 >
-                  {/* Modern Marker Icon */}
-                  <svg className='w-8 h-8 drop-shadow-lg' viewBox='0 0 24 24' fill='none'>
-                    <path
-                      d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z'
-                      fill='url(#gradient)'
-                      stroke='white'
-                      strokeWidth='1'
-                    />
-                    <circle cx='12' cy='9' r='2.5' fill='white' />
-                    <defs>
-                      <linearGradient id='gradient' x1='0%' y1='0%' x2='100%' y2='100%'>
-                        <stop offset='0%' stopColor='#ec4899' />
-                        <stop offset='100%' stopColor='#a855f7' />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </span>
+                  {/* Enhanced Marker Icon with Animation */}
+                  <div className='relative'>
+                    {/* Pulsing background */}
+                    <div className='absolute inset-0 animate-pulse'>
+                      <div className='w-10 h-10 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-600/20'></div>
+                    </div>
 
-                {/* Hover Card */}
-                <div className='hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50'>
-                  <div className='glass-panel p-4 rounded-xl w-[220px] shadow-xl'>
-                    <p className='text-white text-sm line-clamp-3 mb-3'>
+                    {/* Main Icon */}
+                    <svg className='w-10 h-10 drop-shadow-xl relative z-10' viewBox='0 0 24 24' fill='none'>
+                      <circle cx='12' cy='12' r='10' fill='url(#markerGradient)' stroke='white' strokeWidth='1.5' />
+                      <path d='M12 8v8M8 12h8' stroke='white' strokeWidth='2' strokeLinecap='round' />
+                      <defs>
+                        <linearGradient id='markerGradient' x1='0%' y1='0%' x2='100%' y2='100%'>
+                          <stop offset='0%' stopColor='#ec4899' />
+                          <stop offset='100%' stopColor='#a855f7' />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Hover Preview Card */}
+                <div className='hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 animate-in fade-in duration-200'>
+                  <div className='glass-panel p-4 rounded-2xl w-[280px] shadow-2xl'>
+                    {/* Post Image (if exists) */}
+                    {marker.props.post.image && (
+                      <div className='mb-3 rounded-xl overflow-hidden'>
+                        <img
+                          src={marker.props.post.image}
+                          alt='post'
+                          className='w-full h-32 object-cover'
+                          referrerPolicy='no-referrer'
+                        />
+                      </div>
+                    )}
+
+                    {/* Post Text */}
+                    <p className='text-white text-sm leading-relaxed line-clamp-3 mb-3'>
                       {marker.props.post.text}
                     </p>
-                    <div className='flex items-center gap-2'>
+
+                    {/* User Info */}
+                    <div className='flex items-center gap-2 pt-3 border-t border-white/10'>
                       <img
                         src={marker.props.post.userImg}
-                        className='h-6 w-6 rounded-full ring-1 ring-white/20'
+                        className='h-6 w-6 rounded-full ring-1 ring-pink-500/30'
                         alt=''
                         referrerPolicy='no-referrer'
                       />
